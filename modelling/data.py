@@ -10,7 +10,7 @@ class ProcessTitanic():
     
     def exploration_data(self):
         df = _get_data(self.train_path)
-        print('Resumen del conjunto de datos de entrenamiento: ')
+        print('+----------------------Reporte estadístico de conjunto de entrenamiento------------------------+')
         print(f"1. Tamaño conjunto de datos entrenamiento: {len(df)} registros.")
         #Calcular el porcentaje de mujeres vs hombres a bordo
         men = round(df['Sex'].value_counts()[0]/len(df)*100, 2)
@@ -21,16 +21,32 @@ class ProcessTitanic():
         child = round(df['Child'].value_counts()[1]/len(df)*100, 2)
         adult = round(df['Child'].value_counts()[0]/len(df)*100, 2)
         print(f"3. Del total de pasajeros en el conjunto de entrenamiento, un {child}% son niños, y un {adult}% son adultos.")
-        # Calculate percent of deaths
-        deaths = round(df['Survived'].value_counts()[0]/len(df)*100, 2)
-        survived = round(df['Survived'].value_counts()[1]/len(df)*100, 2)
-        print(f"4. Del total de pasajeros en el conjunto de entrenamiento, un {deaths}% murió, y un {survived}% sobrevivió.")
         #Calculate passenger for each Class
         _1st = round(df['Pclass'].value_counts()[1]/len(df)*100, 2)
         _2nd = round(df['Pclass'].value_counts()[2]/len(df)*100, 2)
         _3rd = round(df['Pclass'].value_counts()[3]/len(df)*100, 2)        
-        print(f"5. Del total de pasajeros en el conjunto de entrenamiento, un {_1st}% viajó en primera clase\
+        print(f"4. Del total de pasajeros en el conjunto de entrenamiento, un {_1st}% viajó en primera clase\
 ,un {_2nd}% en segunda clase y un {_3rd}% de tercerca clase.")
+# Calculate percent of deaths
+        deaths = round(df['Survived'].value_counts()[0]/len(df)*100, 2)
+        survived = round(df['Survived'].value_counts()[1]/len(df)*100, 2)
+        print(f"5. Del total de pasajeros en el conjunto de entrenamiento, un {deaths}% murió, y un {survived}% sobrevivió.")
+        #Calculate women survivors vs men survivors
+        male_survivors = round(df.loc[df.Survived == 1]['Sex'].value_counts()[1] / df.loc[df.Survived == 1]['Sex'].count()*100, 2)
+        female_survivors = round(df.loc[df.Survived == 1]['Sex'].value_counts()[0] / df.loc[df.Survived == 1]['Sex'].count()*100, 2)
+        print(f"6. De un total de {df.loc[df.Survived == 1]['Sex'].count()} sobrevivientes en el conjunto de entrenamiento, un {male_survivors}% \
+fueron hombres y un {female_survivors}% mujeres.")
+        #Calculate children survivors vs adults survivors
+        children_survivors = round(df.loc[df.Survived == 1]['Child'].value_counts()[1] / df.loc[df.Survived == 1]['Child'].count()*100, 2)
+        print(f"7. De un total de {df.loc[df.Survived == 1]['Sex'].count()} sobrevivientes en el conjunto de entrenamiento, un {children_survivors}% \
+fueron niños y un {100-children_survivors}% adultos.")
+        #Calculate survivors for each Pclass
+        _1st_survivors = round(df.loc[df.Survived == 1]['Pclass'].value_counts()[1] / df.loc[df.Survived == 1]['Pclass'].count()*100,2)
+        _2nd_survivors = round(df.loc[df.Survived == 1]['Pclass'].value_counts()[2] / df.loc[df.Survived == 1]['Pclass'].count()*100,2)
+        _3nd_survivors = round(df.loc[df.Survived == 1]['Pclass'].value_counts()[2] / df.loc[df.Survived == 1]['Pclass'].count()*100,2)
+        print(f"7. De un total de {df.loc[df.Survived == 1]['Sex'].count()} sobrevivientes en el conjunto de entrenamiento, un {_1st_survivors}% \
+fueron de primera clase, un {_2nd_survivors}% de segunda clase y un {_3nd_survivors}% de tercera clase.")
+        print("+----------------------------------------Fin del Reporte--------------------------------------+")       
 
     def process_titanic(self, train_data):
         train_data = train_data
